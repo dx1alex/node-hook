@@ -1,0 +1,21 @@
+{
+  "name": "hook",
+  "version": "0.1.0",
+  "description": "Simple promise wrapper around the needle module",
+  "main": "js/index.js",
+  "typings": "js/index",
+  "scripts": {
+    "install": "tsd install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dx1alex/node-hook.git"
+  },
+  "author": "dx1alex",
+  "license": "MIT",
+  "dependencies": {
+    "http-proxy-agent": "^1.0.0",
+    "https-proxy-agent": "^1.0.0",
+    "needle": "^1.0.0"
+  }
+}
