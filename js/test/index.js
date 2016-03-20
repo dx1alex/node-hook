@@ -12,7 +12,12 @@ const hook = new index_1.default();
 main();
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        let ok = yield hook.get('https://api.ipify.org/?format=json');
-        console.log(ok.body);
+        try {
+            let ok = yield hook.get('https://api.ipify.org/?format=json');
+            console.log(ok.body);
+        }
+        catch (err) {
+            console.log(err);
+        }
     });
 }

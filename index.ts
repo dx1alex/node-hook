@@ -5,7 +5,7 @@ const HttpsProxyAgent = require('https-proxy-agent')
 export class Hook {
   static needle = needle
 
-  constructor(public options: HookOptions = {}) {
+  constructor(public options: HookOptions = {}, public logger?) {
     this.defaults(Object.assign({
       user_agent: 'curl 7.43.0 (x86_64-pc-linux-gnu) libcurl/7.43.0 GnuTLS/3.3.15 zlib/1.2.8 libidn/1.28 librtmp/2.3',
       timeout: 30000,
@@ -13,27 +13,46 @@ export class Hook {
       http_code_throw: true
     }, this.options))
   }
+
   defaults(options?: HookOptions): HookOptions {
     return Object.assign(this.options, options)
   }
+
   request(method: string, url: string, data: any = null, options: HookOptions = {}): Promise<any> {
     options = this._updateOptions(options, url)
     return new Promise((resolve, reject) => {
+      const log: any = { date: new Date(), method, url }
+      const rejected = (error) => {
+        log.error = error
+        log.type = 'error'
+        if (this.logger) this.logger(log)
+        reject(error)
+      }
+      const resolved = (response) => {
+        log.statusCode = response.statusCode
+        log.type = 'info'
+        if (this.logger) this.logger(log)
+        resolve(response)
+      }
       needle.request(method, url, data, options, (error: any, response) => {
-        if (error) throw error
+        if (error) {
+          return rejected(error)
+        }
         if (response.statusCode != 200 && options.http_code_throw) {
           error = new Error(response.statusCode + ' ' + response.statusMessage)
           error.response = response
-          throw error
+          return rejected(error)
         }
-        resolve(response)
+        resolved(response)
       })
     })
   }
+
   stream(method: string, url: string, data?: any, options?: HookOptions, callback?: Needle.Callback): Needle.ReadableStream {
     options = this._updateOptions(options, url)
     return needle.request(method, url, data, options, callback)
   }
+
   head(url: string, options?: HookOptions) {
     return this.request('head', url, null, options)
   }
@@ -55,6 +74,7 @@ export class Hook {
   delete(url: string, data: any, options?: HookOptions) {
     return this.request('delete', url, data, options)
   }
+
   private _updateOptions(options: HookOptions, url: string) {
     options = Object.assign({}, this.options, options)
     if (options.proxy_agent) {

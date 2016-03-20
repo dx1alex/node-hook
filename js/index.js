@@ -3,8 +3,9 @@ const needle = require('needle');
 const HttpProxyAgent = require('http-proxy-agent');
 const HttpsProxyAgent = require('https-proxy-agent');
 class Hook {
-    constructor(options = {}) {
+    constructor(options = {}, logger) {
         this.options = options;
+        this.logger = logger;
         this.defaults(Object.assign({
             user_agent: 'curl 7.43.0 (x86_64-pc-linux-gnu) libcurl/7.43.0 GnuTLS/3.3.15 zlib/1.2.8 libidn/1.28 librtmp/2.3',
             timeout: 30000,
@@ -18,15 +19,31 @@ class Hook {
     request(method, url, data = null, options = {}) {
         options = this._updateOptions(options, url);
         return new Promise((resolve, reject) => {
+            const log = { date: new Date(), method: method, url: url };
+            const rejected = (error) => {
+                log.error = error;
+                log.type = 'error';
+                if (this.logger)
+                    this.logger(log);
+                reject(error);
+            };
+            const resolved = (response) => {
+                log.statusCode = response.statusCode;
+                log.type = 'info';
+                if (this.logger)
+                    this.logger(log);
+                resolve(response);
+            };
             needle.request(method, url, data, options, (error, response) => {
-                if (error)
-                    throw error;
+                if (error) {
+                    return rejected(error);
+                }
                 if (response.statusCode != 200 && options.http_code_throw) {
                     error = new Error(response.statusCode + ' ' + response.statusMessage);
                     error.response = response;
-                    throw error;
+                    return rejected(error);
                 }
-                resolve(response);
+                resolved(response);
             });
         });
     }
