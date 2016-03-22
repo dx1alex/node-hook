@@ -39,7 +39,6 @@ export interface RequestOptions {
     };
     username?: string;
     password?: string;
-    http_code_throw?: boolean;
 }
 export interface ResponseOptions {
     decode?: boolean;
@@ -71,4 +70,6 @@ export interface TLSOptions {
     secureProtocol?: any;
 }
 export interface HookOptions extends RequestOptions, ResponseOptions, HttpHeaderOptions, TLSOptions {
+    http_code_throw?: boolean;
+    response?: boolean;
 }

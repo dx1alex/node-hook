@@ -1,6 +1,6 @@
 {
   "name": "hook",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Simple promise wrapper around the needle module",
   "main": "js/index.js",
   "typings": "js/index",

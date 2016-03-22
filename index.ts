@@ -32,7 +32,7 @@ export class Hook {
         log.statusCode = response.statusCode
         log.type = 'info'
         if (this.logger) this.logger(log)
-        resolve(response)
+        resolve(options.response ? response : response.body)
       }
       needle.request(method, url, data, options, (error: any, response) => {
         if (error) {
@@ -112,8 +112,6 @@ export interface RequestOptions {
   // Overwritten if present in the URI
   username?: string;
   password?: string;
-
-  http_code_throw?: boolean;
 }
 
 export interface ResponseOptions {
@@ -149,4 +147,6 @@ export interface TLSOptions {
 }
 
 export interface HookOptions extends RequestOptions, ResponseOptions, HttpHeaderOptions, TLSOptions {
+  http_code_throw?: boolean;
+  response?: boolean;
 }

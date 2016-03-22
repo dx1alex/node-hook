@@ -32,7 +32,7 @@ class Hook {
                 log.type = 'info';
                 if (this.logger)
                     this.logger(log);
-                resolve(response);
+                resolve(options.response ? response : response.body);
             };
             needle.request(method, url, data, options, (error, response) => {
                 if (error) {
