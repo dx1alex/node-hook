@@ -77,9 +77,9 @@ class Hook {
         options = Object.assign({}, this.options, options);
         if (options.proxy_agent) {
             if (/^https:\/\//.test(url))
-                options.agent = new HttpsProxyAgent(options.proxy_agent);
+                options.agent = new HttpsProxyAgent('http://' + options.proxy_agent);
             else
-                options.agent = new HttpProxyAgent(options.proxy_agent);
+                options.agent = new HttpProxyAgent('http://' + options.proxy_agent);
         }
         return options;
     }
