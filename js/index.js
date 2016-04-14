@@ -7,7 +7,7 @@ class Hook {
         this.options = options;
         this.logger = logger;
         this.defaults(Object.assign({
-            user_agent: 'curl 7.43.0 (x86_64-pc-linux-gnu) libcurl/7.43.0 GnuTLS/3.3.15 zlib/1.2.8 libidn/1.28 librtmp/2.3',
+            user_agent: '',
             timeout: 30000,
             follow: 10,
             http_code_throw: true
@@ -19,7 +19,7 @@ class Hook {
     request(method, url, data = null, options = {}) {
         options = this._updateOptions(options, url);
         return new Promise((resolve, reject) => {
-            const log = { date: new Date(), method: method, url: url };
+            const log = { date: new Date(), method, url };
             const rejected = (error) => {
                 log.error = error;
                 log.type = 'error';

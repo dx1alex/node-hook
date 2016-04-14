@@ -7,7 +7,7 @@ export class Hook {
 
   constructor(public options: HookOptions = {}, public logger?) {
     this.defaults(Object.assign({
-      user_agent: 'curl 7.43.0 (x86_64-pc-linux-gnu) libcurl/7.43.0 GnuTLS/3.3.15 zlib/1.2.8 libidn/1.28 librtmp/2.3',
+      user_agent: '', //'curl 7.43.0 (x86_64-pc-linux-gnu) libcurl/7.43.0 GnuTLS/3.3.15 zlib/1.2.8 libidn/1.28 librtmp/2.3',
       timeout: 30000,
       follow: 10,
       http_code_throw: true
