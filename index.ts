@@ -1,4 +1,4 @@
-import * as needle from 'needle'
+const needle = require('needle')
 const HttpProxyAgent = require('http-proxy-agent')
 const HttpsProxyAgent = require('https-proxy-agent')
 
@@ -48,7 +48,7 @@ export class Hook {
     })
   }
 
-  stream(method: string, url: string, data?: any, options?: HookOptions, callback?: Needle.Callback): Needle.ReadableStream {
+  stream(method: string, url: string, data?: any, options?: HookOptions, callback?) {
     options = this._updateOptions(options, url)
     return needle.request(method, url, data, options, callback)
   }

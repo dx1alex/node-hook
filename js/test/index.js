@@ -8,13 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const index_1 = require('../index');
-const hook = new index_1.default();
+const hook = new index_1.default({ proxy_agent: '188.120.246.158:8930' });
 main();
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let ok = yield hook.get('https://api.ipify.org/?format=json');
-            console.log(ok.body);
+            let ok = yield hook.get('https://vk.com');
+            console.log(ok);
         }
         catch (err) {
             console.log(err);

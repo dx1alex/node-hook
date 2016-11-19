@@ -84,7 +84,7 @@ class Hook {
         return options;
     }
 }
-Hook.needle = needle;
 exports.Hook = Hook;
+Hook.needle = needle;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Hook;

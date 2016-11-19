@@ -1,11 +1,11 @@
 export declare class Hook {
     options: HookOptions;
     logger: any;
-    static needle: Needle.NeedleStatic;
+    static needle: any;
     constructor(options?: HookOptions, logger?: any);
     defaults(options?: HookOptions): HookOptions;
     request(method: string, url: string, data?: any, options?: HookOptions): Promise<any>;
-    stream(method: string, url: string, data?: any, options?: HookOptions, callback?: Needle.Callback): Needle.ReadableStream;
+    stream(method: string, url: string, data?: any, options?: HookOptions, callback?: any): any;
     head(url: string, options?: HookOptions): Promise<any>;
     get(url: string, data?: any, options?: HookOptions): Promise<any>;
     post(url: string, data: any, options?: HookOptions): Promise<any>;
